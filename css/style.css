@@ -62,6 +62,13 @@ span[class^=icon]{
 .todo.important{
     color:red;
 }
+.todo .todo-edit{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border:none;
+    border-radius: 5px;
+}
 #list-box .check{
     margin-right: 15px;
 }

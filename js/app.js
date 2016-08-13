@@ -34,9 +34,11 @@ var todoView = Backbone.View.extend({
     className: 'todo',
     events:{
         'click .check': 'changeCheck',
-        'click .icon-flag': 'changeImport'
+        'click .icon-flag': 'changeImport',
+        'click .icon-pencil': 'editTodo',
+        'keyup  .todo-edit': 'editEnd'
     },
-    template:_.template('<input type="checkbox" class="check"><%= title %> <span class="icon-bin"></span><span class="icon-flag"></span>'),
+    template:_.template('<input type="checkbox" class="check"><%= title %> <span class="icon-bin"></span><span class="icon-pencil"></span><span class="icon-flag"></span>'),
     initialize:function () {
         _.bindAll(this, 'render');
         this.title = this.model.get('title');
@@ -46,7 +48,8 @@ var todoView = Backbone.View.extend({
         this.render();
     },
     render:function () {
-        this.$el.html(this.template({title:this.title}));
+        this.$el.html('');
+        this.$el.html(this.template({title:this.model.get('title')}));
         this.$el.find('input').prop('checked', this.model.get('checked'));
         this.$el.toggleClass('checked', this.model.get('checked'));
         this.$el.toggleClass('important', this.model.get('important'));
@@ -57,6 +60,22 @@ var todoView = Backbone.View.extend({
     },
     changeImport: function () {
         this.model.changeImport();
+    },
+    editTodo:function () {
+        console.log('edit');
+        console.log(this.el.innerText);
+        this.$el.html('<input type="text" class="todo-edit">');
+        this.$el.find('input').val(this.model.get('title'));
+        this.$el.find('input').focus();
+    },
+    editEnd:function (event) {
+        if(event.keyCode === 13){
+            console.log(event.keyCode);
+            var title = this.$el.find('input').val();
+            this.model.set('title', title);
+            console.log(this.model.get('title'));
+        }
+
     }
 });
 
