@@ -38,19 +38,18 @@ var todoView = Backbone.View.extend({
         'click .icon-pencil': 'editTodo',
         'keyup  .todo-edit': 'editEnd'
     },
-    template:_.template('<input type="checkbox" class="check"><%= title %> <span class="icon-bin"></span><span class="icon-pencil"></span><span class="icon-flag"></span>'),
+    template:_.template($('#item-template').html()),
     initialize:function () {
         _.bindAll(this, 'render');
-        this.title = this.model.get('title');
-        this.check = this.model.get('checked');
-        this.impot = this.model.get('important');
         this.model.on('change', this.render);
         this.render();
     },
     render:function () {
         this.$el.html('');
-        this.$el.html(this.template({title:this.model.get('title')}));
-        this.$el.find('input').prop('checked', this.model.get('checked'));
+        this.$el.html(this.template({
+            checked:this.model.get('checked'),
+            title:this.model.get('title')
+        }));
         this.$el.toggleClass('checked', this.model.get('checked'));
         this.$el.toggleClass('important', this.model.get('important'));
         return this;
